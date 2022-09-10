@@ -21,5 +21,10 @@ export class UsuarioService {
     
       return await this.userModel.findOne({usuario:usuario});
   }
+
+  async todos( ): Promise<Usuario[]> {
+    
+    return await this.userModel.find();
+}
   
 }

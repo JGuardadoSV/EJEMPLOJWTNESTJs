@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { Document } from 'mongoose';
+import { Exclude } from 'class-transformer';
 
 export type UserDocument = Usuario & Document;
 
@@ -11,6 +12,7 @@ export class Usuario {
   usuario: string;
 
   @Prop()
+  
   clave: string;
 }
 

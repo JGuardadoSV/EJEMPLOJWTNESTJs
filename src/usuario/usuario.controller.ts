@@ -1,11 +1,15 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, UseInterceptors, ClassSerializerInterceptor } from '@nestjs/common';
 import { UsuarioService } from './usuario.service';
 import { CreateUsuarioDto } from './dto/create-usuario.dto';
 import { Usuario } from './entities/usuario.entity';
 import * as bcrypt from 'bcrypt';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
+import { ApiBearerAuth, ApiBody, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('usuario')
+@ApiBearerAuth('JWT-auth')
 @Controller('usuario')
+
 export class UsuarioController {
 
   constructor(private readonly usuarioService: UsuarioService) {}
@@ -19,11 +23,19 @@ export class UsuarioController {
     }
 
 
-
+    
     @UseGuards(JwtAuthGuard) //necesita un token para consultar este recurso
+    @ApiBody({type:CreateUsuarioDto})
     @Get('/buscarUno') //se envia un json { "usuario":"Administrador",  "clave":"123456" }
     async getUser( @Body('usuario') usuario: string): Promise<Usuario> {
       const resultado=await this.usuarioService.getUser(usuario)
+      return resultado;
+    }
+
+    @UseGuards(JwtAuthGuard) //necesita un token para consultar este recurso
+    @Get('/todos') //se envia un json { "usuario":"Administrador",  "clave":"123456" }
+    async todos( ): Promise<Usuario[]> {
+      const resultado=await this.usuarioService.todos()
       return resultado;
     }
 }
