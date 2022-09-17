@@ -24,7 +24,7 @@ export class UsuarioController {
 
 
     
-    @UseGuards(JwtAuthGuard) //necesita un token para consultar este recurso
+   // @UseGuards(JwtAuthGuard) //necesita un token para consultar este recurso
     @ApiBody({type:CreateUsuarioDto})
     @Get('/buscarUno') //se envia un json { "usuario":"Administrador",  "clave":"123456" }
     async getUser( @Body('usuario') usuario: string): Promise<Usuario> {
@@ -32,7 +32,7 @@ export class UsuarioController {
       return resultado;
     }
 
-    @UseGuards(JwtAuthGuard) //necesita un token para consultar este recurso
+   //@UseGuards(JwtAuthGuard) //necesita un token para consultar este recurso
     @Get('/todos') //se envia un json { "usuario":"Administrador",  "clave":"123456" }
     async todos( ): Promise<Usuario[]> {
       const resultado=await this.usuarioService.todos()
